@@ -126,17 +126,45 @@ def create_docker_image_and_bash(lang: str, path: str):
     # Обращаемся к парсеру конкретного ЯП для определения необходимой версии образа
     image = parsers.get(lang)(path)
 
-    docker_image = f"""
-    FROM {image}
+    # Определяем тип среды для специальной обработки Poetry
+    environment = None
+    if os.path.exists(os.path.join(path, "pyproject.toml")):
+        environment = "poetry"
 
-    WORKDIR /app
-    COPY . .
+    if environment == "poetry":
+        # Специальный Dockerfile для Poetry
+        docker_image = f"""FROM {image}
 
-    COPY run.sh /usr/local/bin/run.sh
-    RUN chmod +x /usr/local/bin/run.sh
+WORKDIR /app
 
-    ENTRYPOINT ["/usr/local/bin/run.sh"]
-    """
+# Установка Poetry перед копированием файлов проекта
+RUN pip install --no-cache-dir poetry
+
+# Настройка Poetry
+RUN poetry config virtualenvs.create false \\
+    && poetry config virtualenvs.in-project false
+
+# Копирование файлов проекта
+COPY . .
+
+# Удаление возможных виртуальных окружений
+RUN rm -rf .venv
+
+COPY run.sh /usr/local/bin/run.sh
+RUN chmod +x /usr/local/bin/run.sh
+
+ENTRYPOINT ["/usr/local/bin/run.sh"]"""
+    else:
+        # Стандартный Dockerfile
+        docker_image = f"""FROM {image}
+
+WORKDIR /app
+COPY . .
+
+COPY run.sh /usr/local/bin/run.sh
+RUN chmod +x /usr/local/bin/run.sh
+
+ENTRYPOINT ["/usr/local/bin/run.sh"]"""
 
     print(f"Создание файла Dockerfile в {path}...")
 
