@@ -4,6 +4,7 @@ import subprocess
 import sys
 import parsers.python as pp
 import parsers.java as jp
+import parsers.go as gp
 
 def copy_project(repo_or_path: str, build_path: str):
     """
@@ -118,6 +119,7 @@ parsers = {
     "python": pp.parse_image_and_create_bash,
     "java": jp.parse_image_and_create_bash,
     "kotlin": jp.parse_image_and_create_bash,
+    "go": gp.parse_image_and_create_bash,
 }
 
 def create_docker_image_and_bash(lang: str, path: str):

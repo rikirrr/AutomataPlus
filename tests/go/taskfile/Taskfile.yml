@@ -4,3 +4,7 @@ tasks:
   build:
     cmds:
       - go build -o app
+  start:
+    cmds:
+      - ./app
+    deps: [build]

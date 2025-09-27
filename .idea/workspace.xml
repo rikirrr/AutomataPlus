@@ -4,11 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="95e63704-9c61-4328-bb7e-4af2b5a60bf4" name="Changes" comment="4 (фикс пайтона)&#10;весь пайтон работает">
-      <change beforePath="$PROJECT_DIR$/.idea/AutomataRemastered.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/AutomataRemastered.iml" afterDir="false" />
+    <list default="true" id="95e63704-9c61-4328-bb7e-4af2b5a60bf4" name="Changes" comment="5&#10;весь пайтон работает&#10;джава и котлин весь работает">
+      <change afterPath="$PROJECT_DIR$/parsers/go.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/parser.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parsers/java.py" beforeDir="false" afterPath="$PROJECT_DIR$/parsers/java.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/go/make/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/tests/go/make/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/go/taskfile/Taskfile.yml" beforeDir="false" afterPath="$PROJECT_DIR$/tests/go/taskfile/Taskfile.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/go/taskfile/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/tests/go/taskfile/go.mod" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -135,7 +137,15 @@
       <option name="project" value="LOCAL" />
       <updated>1758959424281</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="5&#10;весь пайтон работает&#10;джава и котлин весь работает">
+      <option name="closed" value="true" />
+      <created>1758961054431</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1758961054431</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -143,6 +153,7 @@
     <MESSAGE value="2&#10;пайтон работает" />
     <MESSAGE value="3&#10;весь пайтон работает" />
     <MESSAGE value="4 (фикс пайтона)&#10;весь пайтон работает" />
-    <option name="LAST_COMMIT_MESSAGE" value="4 (фикс пайтона)&#10;весь пайтон работает" />
+    <MESSAGE value="5&#10;весь пайтон работает&#10;джава и котлин весь работает" />
+    <option name="LAST_COMMIT_MESSAGE" value="5&#10;весь пайтон работает&#10;джава и котлин весь работает" />
   </component>
 </project>
