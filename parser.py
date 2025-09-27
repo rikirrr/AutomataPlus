@@ -76,44 +76,63 @@ def pars_lang(path: str, external_lang: str = None) -> str:
     """
     Рекурсивно сканирует директорию проекта для определения основного языка.
     Использует систему скоринга на основе файлов манифестов и расширений.
+    Полностью кроссплатформенная версия (учитывает нечувствительность к регистру Windows).
     """
     # Если язык явно указан, используем его
-    if external_lang and external_lang in languages:
-        print(f"Используем язык '{external_lang}' указанный пользователем.")
-        return external_lang.lower()
+    if external_lang and external_lang.lower() in languages:
+        lang = external_lang.lower()
+        print(f"Используем язык '{lang}' указанный пользователем.")
+        return lang
 
     print("Парсим язык программирования по структуре проекта...")
 
     # Система скоринга
     scores = {lang: 0 for lang in languages.keys()}
 
-    for root, _, files in os.walk(path):
-        for lang, (extensions, manifests) in languages.items():
+    # Преобразуем входящие манифесты и расширения к нижнему регистру для кроссплатформенного сравнения
+    manifests_lower = {
+        lang: [m.lower() for m in config[1]] for lang, config in languages.items()
+    }
+    extensions_lower = {
+        lang: [e.lower() for e in config[0]] for lang, config in languages.items()
+    }
 
-            # 1. Проверка на наличие файлов манифестов (Высокий приоритет: +10 очков)
-            for manifest in manifests:
-                if manifest in files:
+    # --- Кроссплатформенное сканирование ---
+    for root, _, files in os.walk(path):
+
+        # 1. Готовим список файлов в текущей директории в нижнем регистре
+        # (для нечувствительного к регистру поиска на Windows)
+        files_lower = [f.lower() for f in files]
+
+        for lang in languages.keys():
+
+            # Манифест-файлы (наивысший приоритет)
+            for manifest_name_lower in manifests_lower[lang]:
+                if manifest_name_lower in files_lower:
+                    # Присваиваем больше очков, чем за простой файл кода
                     scores[lang] += 10
 
-            # 2. Проверка на наличие файлов кода (Низкий приоритет: +1 очко)
+            # Файлы кода
             for file in files:
                 ext = os.path.splitext(file)[1].lower()
-                if ext in extensions:
+
+                # Используем список расширений в нижнем регистре
+                if ext in extensions_lower[lang]:
                     scores[lang] += 1
 
     # Определение языка с максимальным счетом
-    if not scores or all(score == 0 for score in scores.values()):
-        print("Автоматически определить язык не удалось.")
-        return sys.exit(1)
+    best_lang, max_score = "", 0
+    if scores:
+        best_lang, max_score = max(scores.items(), key=lambda item: item[1])
 
-    best_lang, max_score = max(scores.items(), key=lambda item: item[1])
-
+    # Проверка результата
     if max_score > 0:
         print(f"Определен язык: '{best_lang}' (Счет: {max_score})")
         return best_lang
 
     print("Автоматически определить язык не удалось.")
-    return sys.exit(1)
+    sys.exit(1)
+
 
 parsers = {
     "python": pp.parse_image_and_create_bash,
