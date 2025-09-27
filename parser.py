@@ -117,6 +117,7 @@ def pars_lang(path: str, external_lang: str = None) -> str:
 parsers = {
     "python": pp.parse_image_and_create_bash,
     "java": jp.parse_image_and_create_bash,
+    "kotlin": jp.parse_image_and_create_bash,
 }
 
 def create_docker_image_and_bash(lang: str, path: str):
