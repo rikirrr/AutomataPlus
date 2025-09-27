@@ -67,6 +67,10 @@ languages = {
     "go": [
         [".go"],
         ["go.mod", "go.sum"]
+    ],
+    "c++": [
+        [".cpp"],
+        ["Makefile"]
     ]
 }
 
