@@ -453,7 +453,7 @@ fi
     run_sh_path = os.path.join(path, "run.sh")
 
     try:
-        with open(run_sh_path, 'w', encoding='utf-8') as f:
+        with open(run_sh_path, 'w', encoding='utf-8', newline='\n') as f:  # Использование newline='\n'
             f.write(run_sh_content)
 
         os.chmod(run_sh_path, 0o755)

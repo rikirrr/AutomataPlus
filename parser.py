@@ -135,10 +135,8 @@ def create_docker_image_and_bash(lang: str, path: str):
     WORKDIR /app
     COPY . .
     
-    COPY run.sh /usr/local/bin/run.sh
-    RUN chmod +x /usr/local/bin/run.sh
-    
-    ENTRYPOINT ["/usr/local/bin/run.sh"]
+    RUN chmod +x /app/run.sh
+    ENTRYPOINT ["/app/run.sh"]
     """
 
     print(f"Создание файла Dockerfile в {path}...")
