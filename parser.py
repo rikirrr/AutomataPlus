@@ -119,34 +119,69 @@ parsers = {
     "java": jp.parse_image_and_create_bash,
 }
 
-def create_docker_image_and_bash(lang: str, path: str):
-    print("Создаём файл сборки docker и bash скрипт установки зависимостей и запуска")
 
-    # Создаём баш файл в котором мы установим зависимости и запустим проект
-    # Обращаемся к парсеру конкретного ЯП для определения необходимой версии образа
+def fix_file_format(file_path):
+    """Исправляет формат файла с Windows на Unix"""
+    try:
+        # Читаем в бинарном режиме
+        with open(file_path, 'rb') as f:
+            content = f.read()
+
+        # Заменяем Windows line endings (CRLF) на Unix (LF)
+        if b'\r\n' in content:
+            content = content.replace(b'\r\n', b'\n')
+            print("✓ Исправлен формат файла (CRLF → LF)")
+
+        # Перезаписываем файл
+        with open(file_path, 'wb') as f:
+            f.write(content)
+
+    except Exception as e:
+        print(f"Ошибка при исправлении формата файла: {e}")
+
+
+def create_docker_image_and_bash(lang: str, path: str):
+    print("Создаём файл сборки docker и bash скрипт")
+
     image = parsers.get(lang)(path)
 
+    # Добавляем диагностику в Dockerfile
     docker_image = f"""
     FROM {image}
-    
     WORKDIR /app
     COPY . .
-    
-    COPY run.sh /usr/local/bin/run.sh
-    RUN chmod +x /usr/local/bin/run.sh
-    
-    ENTRYPOINT ["/usr/local/bin/run.sh"]
+    RUN echo "=== ДИАГНОСТИКА ==="
+    RUN pwd
+    RUN ls -la
+    RUN ls -la run.sh 2>/dev/null || echo "run.sh не найден"
+    RUN cat run.sh 2>/dev/null || echo "Не могу прочитать run.sh"
+    RUN file run.sh 2>/dev/null || echo "Не могу проверить тип файла"
+    RUN chmod +x ./run.sh
+    RUN echo "=== ЗАПУСК ==="
+    CMD ./run.sh
     """
 
-    print(f"Создание файла Dockerfile в {path}...")
-
-    dockerfile_path = os.path.join(path, "Dockerfile")
-    print(f"Создание файла Dockerfile в {dockerfile_path}...")
+    run_sh_content = """#!/bin/bash
+    echo "Скрипт запущен успешно!"
+    python --version 2>/dev/null || echo "Python не установлен"
+    echo "Текущая директория:"
+    pwd
+    echo "Файлы:"
+    ls -la
+    """
 
     try:
+        dockerfile_path = os.path.join(path, "Dockerfile")
         with open(dockerfile_path, 'w', encoding='utf-8') as f:
-            f.write(docker_image.strip() + "\n")
-        print("Dockerfile успешно создан.")
+            f.write(docker_image)
+
+        run_sh_path = os.path.join(path, "run.sh")
+        with open(run_sh_path, 'w', encoding='utf-8') as f:
+            f.write(run_sh_content)
+
+        fix_file_format(run_sh_path)
+        print("Файлы успешно созданы.")
+
     except IOError as e:
-        print(f"ОШИБКА записи Dockerfile: {e}")
+        print(f"ОШИБКА записи файлов: {e}")
         sys.exit(1)

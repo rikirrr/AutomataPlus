@@ -1,0 +1,84 @@
+# Игнорировать временные файлы и логи
+*.log
+tmp/
+temp/
+logs/
+
+# Игнорировать файлы компиляции и сборки
+*.class
+*.o
+*.so
+*.a
+*.dll
+*.apk
+*.ipa
+
+# Игнорировать файлы пакетов (зависимости)
+node_modules/
+vendor/
+bower_components/
+Pods/
+
+# Игнорировать кэши и временные файлы IDE
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Игнорировать файлы операционных систем
+*~
+
+# Игнорировать файлы и папки, создаваемые фреймворками
+/build/
+/dist/
+/public/
+
+# Игнорировать файлы конфигурации локальной разработки
+.env
+.env.*
+!/.env.example
+
+# Игнорировать директории и файлы, специфичные для различных языков/платформ
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Node.js
+npm-debug.log
+yarn-error.log
+
+# PHP
+var/log/
+var/cache/
+vendor/
+
+# Ruby
+.bundle/
+log/
+
+# Java
+target/
+build/
+out/
+
+# Файлы проектов
+*.swp
+.project
+.classpath
+.settings/
+
+# Отладка
+*.debug
+*.dbg
+
+# Локальные настройки пользователя
+.user.settings
+local_settings.py
+
+# Виртуальные окружения Python
+venv/
+.venv/
+env/
+ENV/
+

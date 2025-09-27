@@ -3,29 +3,38 @@ import sys
 import uuid
 import parser as p
 
+
 def start_docker(lang: str, path: str):
-    # Создаём Dockerfile и bash
     p.create_docker_image_and_bash(lang, path)
 
-    # Генерируем случайное имя контейнера
     container_name = f"{lang}_{uuid.uuid4().hex[:8]}"
-
-    print(f"[ИНФО] Случайное имя контейнера: {container_name}")
+    print(f"Контейнер: {container_name}")
 
     try:
-        # Собираем образ
-        subprocess.run(
+        print("Сборка образа...")
+        build_result = subprocess.run(
             ["docker", "build", "-t", container_name, path],
+            capture_output=True,
+            text=True,
+            encoding='utf-8',
             check=True
         )
-
-        # Запускаем контейнер
-        subprocess.run(
-            ["docker", "run", "--name", container_name, container_name],
+        print("Образ собран")
+        print("Запуск контейнера.")
+        run_result = subprocess.run(
+            ["docker", "run", "--rm", container_name],
+            capture_output=True,
+            text=True,
+            encoding='utf-8',
             check=True
         )
+        print("Контейнер выполнен успешно!")
+        print("Вывод:")
+        print(run_result.stdout)
+        print(build_result.stdout)
 
-        print(f"[OK] Контейнер {container_name} успешно запущен.")
+
     except subprocess.CalledProcessError as e:
-        print(f"[ОШИБКА] Ошибка запуска docker: {e}")
+        print(f"ОШИБКА: {e.stderr}")
+        print(f"STDOUT: {e.stdout}")
         sys.exit(1)
