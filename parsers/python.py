@@ -91,13 +91,9 @@ def get_docker_image(environment: str, python_version: str) -> str:
     """
     Возвращает подходящий Docker образ для среды и версии Python.
     """
-    if environment == "poetry":
-        # Используем базовый Python образ + установка Poetry
-        return f"python:{python_version}-slim"
-    elif environment == "conda":
-        return "continuumio/miniconda3"
-    else:  # pip или pure
-        return f"python:{python_version}-slim"
+    # Для всех сред используем базовый Python образ
+    # Poetry и Conda устанавливаются в run.sh
+    return f"python:{python_version}-slim"
 
 
 def has_dependency(path: str, dep: str) -> bool:
@@ -165,7 +161,17 @@ def parse_image_and_create_bash(path: str) -> str:
         run_sh_content = f"""#!/bin/bash
 set -e
 
-# Установка зависимостей (Poetry уже настроен в Dockerfile)
+# Установка Poetry
+pip install --no-cache-dir poetry
+
+# Настройка Poetry для работы в контейнере
+poetry config virtualenvs.create false
+poetry config virtualenvs.in-project false
+
+# Очистка возможных виртуальных окружений
+rm -rf .venv
+
+# Установка зависимостей
 {env_config["install_cmd"]}
 
 # Запуск приложения
@@ -174,8 +180,39 @@ exec {run_command}
     elif environment == "conda":
         run_sh_content = f"""#!/bin/bash
 set -e
+
+# Проверяем наличие conda
+if ! command -v conda &> /dev/null; then
+    echo "Устанавливаем miniconda..."
+
+    # Скачиваем и устанавливаем miniconda
+    wget -q https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /tmp/miniconda.sh
+    bash /tmp/miniconda.sh -b -p /opt/miniconda
+    rm /tmp/miniconda.sh
+
+    # Добавляем conda в PATH
+    export PATH="/opt/miniconda/bin:$PATH"
+
+    # Инициализация conda для bash
+    /opt/miniconda/bin/conda init bash
+    source ~/.bashrc
+fi
+
+# Убеждаемся что conda в PATH
+export PATH="/opt/miniconda/bin:$PATH"
+
+# Создание окружения из environment.yml
+echo "Создаем conda окружение..."
 {env_config["install_cmd"]}
-source activate $(head -1 environment.yml | cut -d' ' -f2)
+
+# Получение имени окружения из environment.yml
+ENV_NAME=$(grep '^name:' environment.yml | cut -d' ' -f2)
+
+# Активация окружения
+source /opt/miniconda/etc/profile.d/conda.sh
+conda activate $ENV_NAME
+
+# Запуск приложения
 exec {run_command}
 """
     elif environment == "pip":
