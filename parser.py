@@ -134,16 +134,18 @@ def create_docker_image_and_bash(lang: str, path: str):
 
     COPY run.sh /usr/local/bin/run.sh
     RUN chmod +x /usr/local/bin/run.sh
-    RUN ln -s /usr/local/bin/run.sh /usr/local/bin/run.sh
 
     ENTRYPOINT ["/usr/local/bin/run.sh"]
     """
 
     print(f"Создание файла Dockerfile в {path}...")
 
+    dockerfile_path = os.path.join(path, "Dockerfile")
+    print(f"Создание файла Dockerfile в {dockerfile_path}...")
+
     try:
-        with open(path, 'w', encoding='utf-8') as f:
-            f.write(path)
+        with open(dockerfile_path, 'w', encoding='utf-8') as f:
+            f.write(docker_image.strip() + "\n")
         print("Dockerfile успешно создан.")
     except IOError as e:
         print(f"ОШИБКА записи Dockerfile: {e}")

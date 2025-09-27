@@ -1,10 +1,6 @@
 import os
-import shutil
-import subprocess
 import sys
 
-
-# Карта сред Python для определения базового образа и команды установки.
 python_environments = {
     "poetry": {
         "manifest": "pyproject.toml",
@@ -23,6 +19,20 @@ python_environments = {
     }
 }
 
+def has_dependency(path: str, dep: str) -> bool:
+    """
+    Проверяет наличие зависимости dep в requirements.txt или pyproject.toml.
+    """
+    for manifest in ["requirements.txt", "pyproject.toml"]:
+        manifest_path = os.path.join(path, manifest)
+        if os.path.exists(manifest_path):
+            with open(manifest_path, "r", encoding="utf-8") as f:
+                content = f.read().lower()
+                if dep.lower() in content:
+                    return True
+    return False
+
+
 def parse_image_and_create_bash(path: str) -> str:
     """
     Парсит структуру проекта Python для определения среды (pip, poetry, conda)
@@ -30,7 +40,7 @@ def parse_image_and_create_bash(path: str) -> str:
     """
     print("Парсим докер образ из структуры проекта (Python)...")
 
-    # 1. Поиск файлов манифестов в корне проекта в порядке приоритета
+    # Поиск файлов манифестов в корне проекта в порядке приоритета
     environment = None
     env_config = None
 
@@ -49,58 +59,46 @@ def parse_image_and_create_bash(path: str) -> str:
             "install_cmd": "# Нет файла манифеста зависимостей (requirements.txt, pyproject.toml и т.п.)",
         }
 
-    # 2. Определение команды запуска (Application Entry Point)
+    # Определение команды запуска (Application Entry Point)
     run_command = ""
 
-    # NOTE: Это очень упрощенная логика автоопределения сервера.
-    # В реальной жизни требуется парсинг содержимого файлов или Dockerfile.
+    # Проверяем, не подключены ли gunicorn/uvicorn
+    if has_dependency(path, "gunicorn"):
+        run_command = "gunicorn project_name.wsgi:application -b 0.0.0.0:8000"
 
-    if os.path.exists(os.path.join(path, "manage.py")):
-        # Пример для Django/консольных команд через manage.py
-        run_command = "# Запуск Django: gunicorn <project_name>.wsgi:application -b 0.0.0.0:8000"
+    elif has_dependency(path, "uvicorn"):
+        run_command = "uvicorn app:app --host 0.0.0.0 --port 8000"
+
+    elif os.path.exists(os.path.join(path, "manage.py")):
+        run_command = "python manage.py runserver 0.0.0.0:8000"
 
     elif os.path.exists(os.path.join(path, "app.py")):
-        # Пример для Flask/FastAPI
-        run_command = "# Запуск ASGI/WSGI: uvicorn app:app --host 0.0.0.0 --port 8000"
+        run_command = "python app.py"
 
     elif os.path.exists(os.path.join(path, "main.py")):
-        # Консольное/обычное приложение
         run_command = "python main.py"
 
     else:
-        run_command = "# Замените на команду для запуска вашего приложения (например, python main.py)"
+        run_command = "python main.py"
 
-    # 3. Генерация содержимого run.sh
-
+    # Генерация содержимого run.sh
     run_sh_content = f"""#!/bin/bash
-# run.sh - Скрипт установки зависимостей и запуска проекта.
-# Определенная среда: {environment.upper()}
-
-echo "--- Настройка зависимостей ---"
-
-# Команда установки для {environment}:
 {env_config["install_cmd"]}
-
-echo "--- Запуск приложения ---"
-
-# Команда запуска (может потребовать ручной корректировки):
 {run_command}
 """
 
-    # 4. Запись run.sh в корень проекта
     run_sh_path = os.path.join(path, "run.sh")
 
     try:
         with open(run_sh_path, 'w', encoding='utf-8') as f:
             f.write(run_sh_content)
 
-        # Делаем файл исполняемым
         os.chmod(run_sh_path, 0o755)
 
         print(f"Файл run.sh для среды '{environment}' успешно создан в {run_sh_path}")
         print(f"Базовый образ Docker: {env_config['image']}")
 
-        return env_config["image"]  # Возвращаем имя базового образа
+        return env_config["image"]
 
     except IOError as e:
         print(f"ОШИБКА записи run.sh: {e}")
