@@ -1,15 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="95e63704-9c61-4328-bb7e-4af2b5a60bf4" name="Changes" comment="" />
+    <list default="true" id="95e63704-9c61-4328-bb7e-4af2b5a60bf4" name="Changes" comment="7&#10;весь пайтон работает&#10;джава и котлин весь работает&#10;го лэнг весь работает">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "rikirrr"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/rikirrr/Automata-.git",
+    "accountId": "ad1c981e-03dd-481e-8311-0f82d3b05861"
+  }
+}]]></component>
   <component name="ProjectColorInfo"><![CDATA[{
   "associatedIndex": 3
 }]]></component>
@@ -20,10 +44,47 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python.main.executor": "Run",
+    "Python.poetry test.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master"
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "/home/ynovka/PycharmProjects/AutomataRemastered/tests/python"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/tests/python" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/parsers" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="poetry test" type="PythonConfigurationType" factoryName="Python">
+      <module name="AutomataRemastered" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="./tests/python/poetry/" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -39,6 +100,73 @@
       <option name="presentableId" value="Default" />
       <updated>1758908820688</updated>
     </task>
+    <task id="LOCAL-00001" summary="1">
+      <option name="closed" value="true" />
+      <created>1758917689227</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1758917689227</updated>
+    </task>
+    <task id="LOCAL-00002" summary="2&#10;пайтон работает">
+      <option name="closed" value="true" />
+      <created>1758956897524</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1758956897524</updated>
+    </task>
+    <task id="LOCAL-00003" summary="3&#10;весь пайтон работает">
+      <option name="closed" value="true" />
+      <created>1758958667644</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1758958667644</updated>
+    </task>
+    <task id="LOCAL-00004" summary="4 (фикс пайтона)&#10;весь пайтон работает">
+      <option name="closed" value="true" />
+      <created>1758959424281</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1758959424281</updated>
+    </task>
+    <task id="LOCAL-00005" summary="5&#10;весь пайтон работает&#10;джава и котлин весь работает">
+      <option name="closed" value="true" />
+      <created>1758961054431</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1758961054431</updated>
+    </task>
+    <task id="LOCAL-00006" summary="6&#10;весь пайтон работает&#10;джава и котлин весь работает&#10;го лэнг весь работает">
+      <option name="closed" value="true" />
+      <created>1758964062336</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1758964062336</updated>
+    </task>
+    <task id="LOCAL-00007" summary="7&#10;весь пайтон работает&#10;джава и котлин весь работает&#10;го лэнг весь работает">
+      <option name="closed" value="true" />
+      <created>1758964856689</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1758964856689</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="1" />
+    <MESSAGE value="2&#10;пайтон работает" />
+    <MESSAGE value="3&#10;весь пайтон работает" />
+    <MESSAGE value="4 (фикс пайтона)&#10;весь пайтон работает" />
+    <MESSAGE value="5&#10;весь пайтон работает&#10;джава и котлин весь работает" />
+    <MESSAGE value="6&#10;весь пайтон работает&#10;джава и котлин весь работает&#10;го лэнг весь работает" />
+    <MESSAGE value="7&#10;весь пайтон работает&#10;джава и котлин весь работает&#10;го лэнг весь работает" />
+    <option name="LAST_COMMIT_MESSAGE" value="7&#10;весь пайтон работает&#10;джава и котлин весь работает&#10;го лэнг весь работает" />
   </component>
 </project>
